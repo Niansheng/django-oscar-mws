@@ -2,12 +2,12 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 
-from oscar.app import shop
+from oscar.app import Shop
 from oscar_mws.dashboard.app import application as mws_app
 
 
 admin.autodiscover()
-
+shop = Shop()
 urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),

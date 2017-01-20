@@ -1,6 +1,6 @@
 # Django settings for sandbox project.
 import os
-
+from oscar import get_core_apps
 
 PROJECT_DIR = os.path.dirname(__file__)
 location = lambda x: os.path.join(
@@ -107,7 +107,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.transaction.TransactionMiddleware',
     'oscar.apps.basket.middleware.BasketMiddleware',
 )
 
@@ -136,7 +135,7 @@ TEMPLATE_DIRS = [
     OSCAR_MAIN_TEMPLATE_DIR,
 ]
 
-DJANGO_APPS = [
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -147,14 +146,11 @@ DJANGO_APPS = [
     'django.contrib.admin',
 
     'compressor',
-    'south',
     'django_extensions',
-]
+    'oscar_mws',
+    'widget_tweaks',
+] + get_core_apps()
 
-from oscar import get_core_apps
-INSTALLED_APPS = DJANGO_APPS + ['oscar_mws'] + get_core_apps([
-    'partner',
-])
 
 AUTHENTICATION_BACKENDS = (
     'oscar.apps.customer.auth_backends.Emailbackend',

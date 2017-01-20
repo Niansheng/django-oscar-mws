@@ -16,5 +16,6 @@ local_settings.py
 htmlcov/
 docs/build/
 sandbox/public/
-
+venv
 .ropeproject
+.python-version

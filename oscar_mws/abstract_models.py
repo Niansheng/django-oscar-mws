@@ -9,9 +9,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from lxml.builder import E
 
-Partner = models.get_model('partner', 'Partner')
-StockRecord = models.get_model('partner', 'StockRecord')
-
 
 STATUS_DONE = "_DONE_"
 STATUS_SUBMITTED = "_SUBMITTED_"
@@ -312,6 +309,7 @@ class AbstractAmazonProfile(models.Model):
 
     def save(self, *args, **kwargs):
         super(AbstractAmazonProfile, self).save(*args, **kwargs)
+        StockRecord = models.get_model('partner', 'StockRecord')
         if getattr(settings, 'MWS_ENFORCE_PARTNER_SKU', True):
             StockRecord.objects.filter(product__amazon_profile=self).update(
                 partner_sku=self.sku)
@@ -624,6 +622,8 @@ class AbstractMerchantAccount(models.Model):
                     "created automatically"))
 
     def save(self, *args, **kwargs):
+        Partner = models.get_model('partner', 'Partner')
+
         if not self.partner:
             self.partner, __ = Partner.objects.get_or_create(name=self.name)
         super(AbstractMerchantAccount, self).save(*args, **kwargs)
