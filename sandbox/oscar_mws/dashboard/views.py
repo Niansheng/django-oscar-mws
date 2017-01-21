@@ -395,6 +395,7 @@ class MerchantUpdateView(generic.UpdateView):
     model = MerchantAccount
     template_name = 'oscar_mws/dashboard/merchant_update.html'
     success_url = reverse_lazy('mws-dashboard:merchant-list')
+    fields = '__all__'
 
     def form_valid(self, form):
         reset_connections()
