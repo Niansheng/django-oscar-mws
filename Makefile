@@ -33,6 +33,10 @@ env: $(VIRTUAL_DIR_FLAG)
 run-py: $(VIRTUAL_DIR_FLAG)
 	$(VIRTUAL) ./sandbox/manage.py runserver
 
+.PHONY : collectstatic
+collectstatic: $(VIRTUAL_DIR_FLAG)
+	$(VIRTUAL) ./sandbox/manage.py collectstatic --noinput
+
 .PHONY : run
 run: $(VIRTUAL_DIR_FLAG)
 	$(VIRTUAL) cd sandbox && uwsgi uwsgi.ini
