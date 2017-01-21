@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls import patterns, include, url
+from django.views.static import serve
 
 from oscar.app import Shop
 from oscar_mws.dashboard.app import application as mws_app
@@ -18,13 +19,20 @@ urlpatterns = patterns(
     url(r'', include(shop.urls)),
 )
 
-if settings.DEBUG:
-    urlpatterns += patterns(
-        '',
-        url(
-            r'^media/(?P<path>.*)$',
-            'django.views.static.serve', {
-                'document_root': settings.MEDIA_ROOT,
-            }
-        ),
-    )
+# if settings.DEBUG:
+#     urlpatterns += patterns(
+#         '',
+#         url(
+#             r'^media/(?P<path>.*)$',
+#             'django.views.static.serve', {
+#                 'document_root': settings.MEDIA_ROOT,
+#             }
+#         ),
+#     )
+urlpatterns += [
+    url(r'^static/(?P<path>.*)$', serve, {
+        'document_root': settings.STATIC_ROOT}),
+
+    url(r'^media/(?P<path>.*)$', serve, {
+        'document_root': settings.MEDIA_ROOT}),
+]

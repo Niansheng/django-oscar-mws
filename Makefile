@@ -29,9 +29,17 @@ setup: $(VIRTUAL_DIR_FLAG)
 env: $(VIRTUAL_DIR_FLAG)
 	$(VIRTUAL) /bin/bash
 
+.PHONY : run-py
+run-py: $(VIRTUAL_DIR_FLAG)
+	$(VIRTUAL) ./sandbox/manage.py runserver
+
 .PHONY : run
 run: $(VIRTUAL_DIR_FLAG)
-	$(VIRTUAL) ./sandbox/manage.py runserver
+	$(VIRTUAL) cd sandbox && uwsgi uwsgi.ini
+
+.PHONY : migrate
+migrate: $(VIRTUAL_DIR_FLAG)
+	$(VIRTUAL) ./sandbox/manage.py migrate
 
 .PHONY : clean
 clean:
