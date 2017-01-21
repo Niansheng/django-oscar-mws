@@ -389,7 +389,7 @@ class MerchantCreateView(generic.CreateView):
     model = MerchantAccount
     template_name = 'oscar_mws/dashboard/merchant_update.html'
     success_url = reverse_lazy('mws-dashboard:merchant-list')
-
+    fields = '__all__'
 
 class MerchantUpdateView(generic.UpdateView):
     model = MerchantAccount
