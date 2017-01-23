@@ -1,7 +1,7 @@
+import warnings
 from django.contrib import admin
-
 from django.db.models import get_model
-
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 admin.site.register(get_model("oscar_mws", "FeedSubmission"))
 admin.site.register(get_model("oscar_mws", "FeedReport"))

@@ -1,3 +1,4 @@
+import warnings
 import logging
 
 from dateutil.parser import parse as du_parse
@@ -8,6 +9,7 @@ from ..api import MWSError
 from .. import abstract_models as am
 from ..connection import get_merchant_connection
 from ..feeds import writers
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 logger = logging.getLogger('oscar_mws')
 
