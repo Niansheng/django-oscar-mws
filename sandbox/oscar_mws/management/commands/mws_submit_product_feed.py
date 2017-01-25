@@ -4,6 +4,7 @@ from django.db.models import get_model
 from django.core.management.base import NoArgsCommand
 
 from oscar_mws.feeds.gateway import submit_product_feed
+from oscar_mws.models import MerchantAccount
 
 Product = get_model('catalogue', 'Product')
 
@@ -30,10 +31,15 @@ class Command(NoArgsCommand):
         products = Product.objects.all()
 
         merchant_id = options.get('seller_id')
+        merchant = MerchantAccount.objects.filter(
+            seller_id=merchant_id).first()
+        if not merchant:
+            raise Exception('Merchant doesn\'t exists')
 
+        marketplaces = merchant.marketplaces.all()
         if options.get('dry_run'):
-            submit_product_feed(products, merchant_id, dry_run=True)
+            submit_product_feed(products, marketplaces, dry_run=True)
             return
 
-        submission = submit_product_feed(products, merchant_id)
+        submission = submit_product_feed(products, marketplaces)
         print "Submitted as ID #{0}".format(submission.submission_id)
