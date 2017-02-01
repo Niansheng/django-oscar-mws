@@ -45,9 +45,9 @@ run: $(VIRTUAL_DIR_FLAG)
 migrate: $(VIRTUAL_DIR_FLAG)
 	$(VIRTUAL) ./sandbox/manage.py migrate
 
-.PHONY : migrate
-migrate: $(VIRTUAL_DIR_FLAG)
-	$(VIRTUAL) ./sandbox/manage.py migrate
+.PHONY : shell
+shell: $(VIRTUAL_DIR_FLAG)
+	$(VIRTUAL) ./sandbox/manage.py shell
 
 .PHONY : clean
 clean:
