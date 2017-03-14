@@ -35,6 +35,30 @@ class BaseProductDataMapper(object):
         return getattr(E, self.base_type)(E.ProductType(pt_elem))
 
 
+class ClothingMapper(BaseProductDataMapper):
+    ATTRIBUTE_MAPPERING = {
+#        'ProductImage',
+        'ClassificationData',
+        'VariationData'
+    }
+
+    def get_product_data(self, **kwargs):
+        pt_elem = getattr(E, self.product_type)()
+
+        attr_values = ProductAttributeValue.objects.filter(
+            product=self.product,
+            attribute__code__in=self.ATTRIBUTE_MAPPING
+        ).select_related('attribute')
+
+        values = sorted(
+            [(p.attribute.code, p.value)
+             for p in attr_values]
+        )
+        for name, value in values:
+            pt_elem.append(etree.fromstring(value))
+
+        return getattr(E, self.base_type)(E.ProductType(pt_elem))
+
 class BaseProductMapper(object):
 
     def __init__(self, product):
@@ -82,7 +106,10 @@ class BaseProductMapper(object):
 
 
 class ProductMapper(BaseProductMapper):
-    PRODUCT_DATA_MAPPERS = {}
+    PRODUCT_DATA_MAPPERS = {
+        'clothing': ClothingMapper
+    }
+
     BASE_ATTRIBUTES = [
         "SKU",
         "StandardProductID",
