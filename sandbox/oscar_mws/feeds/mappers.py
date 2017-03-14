@@ -36,7 +36,8 @@ class BaseProductDataMapper(object):
 
 
 class ClothingMapper(BaseProductDataMapper):
-    ATTRIBUTE_MAPPERING = {
+    product_type = 'Clothing'
+    ATTRIBUTE_MAPPING = {
 #        'ProductImage',
         'ClassificationData',
         'VariationData'
@@ -57,7 +58,7 @@ class ClothingMapper(BaseProductDataMapper):
         for name, value in values:
             pt_elem.append(etree.fromstring(value))
 
-        return getattr(E, self.base_type)(E.ProductType(pt_elem))
+        return pt_elem
 
 class BaseProductMapper(object):
 
