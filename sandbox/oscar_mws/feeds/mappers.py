@@ -193,7 +193,8 @@ class ProductMapper(BaseProductMapper):
         desc_elem = etree.SubElement(product_elem, 'DescriptionData')
         self._add_attributes(desc_elem, self.DESCRIPTION_DATA_ATTRIBUTES)
 
-        mapper = self.PRODUCT_DATA_MAPPERS.get(self.product.product_class.slug)
+        p_class = self.product.product_class or self.product.parent.product_class
+        mapper = self.PRODUCT_DATA_MAPPERS.get(p_class.slug)
         if mapper:
             sub_tree = mapper(self.product).get_product_data()
             if sub_tree is not None:
